@@ -25,6 +25,11 @@ namespace Main
             auto& trampoline = REL::GetTrampoline();
             trampoline.create(64);
 
+            // Listen for Messages
+            auto MessagingInterface = F4SE::GetMessagingInterface();
+            MessagingInterface->RegisterListener(OutfitRedressFix::F4SEMessageListener);
+            REX::INFO("Started Listening for F4SE Message Callbacks.");
+
             // Install the Mod
             if (OutfitRedressFix::Install())
                 REX::INFO("Outfit Redress Fix AE Patch Initialized!");
@@ -38,27 +43,27 @@ namespace Main
         return isInit;
     }
 
-    // F4SE_PLUGIN_QUERY(const F4SE::QueryInterface* a_f4se, F4SE::PluginInfo* a_info)
-    // {
-    //     if (const auto data = F4SE::PluginVersionData::GetSingleton())
-    //     {
-    //         a_info->infoVersion = F4SE::PluginInfo::kVersion;
-    //         a_info->name = data->GetPluginName().data();
-    //         a_info->version = data->GetPluginVersion().pack();
-    //     }
+    F4SE_PLUGIN_QUERY(const F4SE::QueryInterface* a_f4se, F4SE::PluginInfo* a_info)
+    {
+        if (const auto data = F4SE::PluginVersionData::GetSingleton())
+        {
+            a_info->infoVersion = F4SE::PluginInfo::kVersion;
+            a_info->name = data->GetPluginName().data();
+            a_info->version = data->GetPluginVersion().pack();
+        }
 
-    //     const auto ver = a_f4se->RuntimeVersion();
-    //     if (ver < REL::Version(F4SE::RUNTIME_1_10_163))
-    //         return false;
+        const auto ver = a_f4se->RuntimeVersion();
+        if (ver < REL::Version(F4SE::RUNTIME_1_10_163))
+            return false;
 
-    //     return true;
-    // }
+        return true;
+    }
 
-    // F4SE_PLUGIN_LOAD(const F4SE::LoadInterface* a_f4se)
-	// {
-    //     // OG does not support PreLoading
-	// 	return InitPlugin(a_f4se);
-	// }
+    F4SE_PLUGIN_LOAD(const F4SE::LoadInterface* a_f4se)
+	{
+        // OG does not support PreLoading
+		return InitPlugin(a_f4se);
+	}
 
     F4SE_PLUGIN_PRELOAD(const F4SE::LoadInterface* a_f4se)
     {

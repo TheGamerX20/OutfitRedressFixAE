@@ -3,7 +3,7 @@ includes("lib/commonlibf4")
 
 -- name and version
 local plugin_name = "OutfitRedressFixAE"
-local plugin_version = "1.0.0"
+local plugin_version = "1.1.0"
 local plugin_version_major, plugin_version_minor, plugin_version_patch = plugin_version:match("^(%d+)%.(%d+)%.(%d+)$")
 
 -- set project constants
@@ -17,8 +17,8 @@ set_warnings("allextra")
 add_rules("mode.release", "mode.releasedbg")
 add_rules("plugin.vsxmake.autoupdate")
 
--- add options
-set_config("commonlib_toml", true)
+-- add requires
+add_requires("simpleini")
 
 -- override runtime count
 add_defines("COMMONLIB_RUNTIMECOUNT=3")
@@ -30,6 +30,9 @@ target(plugin_name)
         author = "TheGamerX20",
         description = "Outfit Redress Fix for NG & AE!"
     })
+
+	-- add packages
+	add_packages("simpleini")
 
     -- add src files
     add_files("src/**.cpp")
